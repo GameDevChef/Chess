@@ -50,24 +50,15 @@ public abstract class Piece : MonoBehaviour
 		tweener.MoveTo(transform, targetPosition);
 	}
 
-	public bool IsAttackingPieceOfType<T>() where T : Piece
-	{
-		foreach (var square in avaliableMoves)
-		{
-			if (board.GetPieceOnSquare(square) is T)
-				return true;
-		}
-		return false;
-	}
 
 	protected void TryToAddMove(Vector2Int coords)
 	{
 		avaliableMoves.Add(coords);
 	}
 
-	internal void SetData(Vector2Int squareCoordinates, TeamColor color, Board board)
+	internal void SetData(Vector2Int squareCoordinates, TeamColor team, Board board)
 	{
-		team = color;
+		this.team = team;
 		occupiedSquare = squareCoordinates;
 		this.board = board;
 		transform.position = board.CalculatePositionFromCoords(squareCoordinates);

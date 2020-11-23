@@ -6,29 +6,32 @@ using UnityEngine;
 
 public class PiecesCreator : MonoBehaviour
 {
-    [SerializeField] private Piece[] piecesPrefabs;
+    [SerializeField] private GameObject[] piecesPrefabs;
     [SerializeField] private Material blackMaterial;
     [SerializeField] private Material whiteMaterial;
-    private Dictionary<string, Piece> nameToPieceDict = new Dictionary<string, Piece>();
+    private Dictionary<string, GameObject> nameToPieceDict = new Dictionary<string, GameObject>();
 
     private void Awake()
     {
         foreach (var piece in piecesPrefabs)
         {
-            nameToPieceDict.Add(piece.GetType().ToString(), piece);
+            nameToPieceDict.Add(piece.GetComponent<Piece>().GetType().ToString(), piece);
         }
     }
 
-    public Piece CreatePiece(Type type, TeamColor teamColor)
+    public GameObject CreatePiece(Type type)
     {
-        Piece prefab = nameToPieceDict[type.ToString()];
+        GameObject prefab = nameToPieceDict[type.ToString()];
         if (prefab)
         {
-            Piece newPiece = Instantiate(prefab);
-            Material selectedMaterial = teamColor == TeamColor.White ? whiteMaterial : blackMaterial;
-            newPiece.SetMaterial(selectedMaterial);
+            GameObject newPiece = Instantiate(prefab);
             return newPiece;
         }
         return null;
+    }
+
+    public Material GetTeamMaterial(TeamColor teamColor)
+    {
+        return teamColor == TeamColor.White ? whiteMaterial : blackMaterial;
     }
 }

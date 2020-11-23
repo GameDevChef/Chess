@@ -12,10 +12,8 @@ public class ChessGameController : MonoBehaviour
         Init, Play, Finished
     }
 
-
     [SerializeField] private BoardLayout startingBoardLayout;
     [SerializeField] private Board board;
-    [SerializeField] private ChessUIController UIManager;
 
     private GameState state;
     private ChessPlayer whitePlayer;
@@ -34,7 +32,7 @@ public class ChessGameController : MonoBehaviour
         pieceCreator = GetComponent<PiecesCreator>();
     }
 
-    internal bool IsGameInProgress()
+    public bool IsGameInProgress()
     {
         return state == GameState.Play;
     }
@@ -50,26 +48,12 @@ public class ChessGameController : MonoBehaviour
         StartNewGame();
     }
 
-    public void RestartGame()
-    {
-        DestroyPieces();
-        board.OnGameRestarted();
-        whitePlayer.OnGameRestarted();
-        blackPlayer.OnGameRestarted();
-        StartNewGame();
-    }
-
-    private void DestroyPieces()
-    {
-        whitePlayer.activePieces.ForEach(p => Destroy(p.gameObject));
-        blackPlayer.activePieces.ForEach(p => Destroy(p.gameObject));
-    }
 
     private void StartNewGame()
     {
         SetGameState(GameState.Init);
-        UIManager.HideUI();
-        InitializeGame(startingBoardLayout);
+        board.SetDependencies(this);
+        CreatePiecesFromLayout(startingBoardLayout);
         activePlayer = whitePlayer;
         GeneratePlayersValidMoves(activePlayer);
         SetGameState(GameState.Play);
@@ -80,52 +64,34 @@ public class ChessGameController : MonoBehaviour
         this.state = state;
     }
 
-    private void InitializeGame(BoardLayout layout)
-    {
-        board.SetDependencies(this);
-        CreatePiecesFromLayout(layout);
-    }
-
-
 
     private void CreatePiecesFromLayout(BoardLayout layout)
     {
         for (int i = 0; i < layout.GetPiecesCount(); i++)
         {
             Vector2Int squareCoordinates = layout.GetSquareCoordsAtIndex(i);
-            TeamColor color = layout.GetSquareTeamColorAtIndex(i);
+            TeamColor team = layout.GetSquareTeamColorAtIndex(i);
             string typeName = layout.GetSquarePieceNameAtIndex(i);
             Type type = Type.GetType(typeName);
-            CreatePieceAndInitialize(squareCoordinates, color, type);
+            CreatePieceAndInitialize(squareCoordinates, team, type);
         }
     }
 
-    public void CreatePieceAndInitialize(Vector2Int squareCoordinates, TeamColor color, Type type)
+    public void CreatePieceAndInitialize(Vector2Int squareCoordinates, TeamColor team, Type type)
     {
-        Piece newPiece = CreatPieceOfTypeForTeam(type, color);
-        newPiece.SetData(squareCoordinates, color, board);
-        board.SetPieceOnSquare(squareCoordinates, newPiece);
-        AssignPieceToPlyer(color, newPiece);
-    }
+        Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
+        newPiece.SetData(squareCoordinates, team, board);
 
-    public void AssignPieceToPlyer(TeamColor color, Piece newPiece)
-    {
-        ChessPlayer currentPlayer = (color == TeamColor.White) ? whitePlayer : blackPlayer;
+        Material teamMaterial = pieceCreator.GetTeamMaterial(team);
+        newPiece.SetMaterial(teamMaterial);
+
+        board.SetPieceOnSquare(squareCoordinates, newPiece);
+
+        ChessPlayer currentPlayer = (team == TeamColor.White) ? whitePlayer : blackPlayer;
         currentPlayer.AddPiece(newPiece);
     }
 
-
-    internal Piece CreatPieceOfTypeForTeam(Type type, TeamColor team)
-    {
-        return pieceCreator.CreatePiece(type, team);
-    }
-
-    internal void RemoveMovesEnablingAttakOnPieceOfType<T>(Piece piece) where T : Piece
-    {
-        activePlayer.RemoveMovesEnablingAttakOnPieceOfType<T>(GetOpponentToPlayer(activePlayer), piece);
-    }
-
-    internal bool IsTeamTurnActive(TeamColor team)
+    public bool IsTeamTurnActive(TeamColor team)
     {
         return activePlayer.team == team;
     }
@@ -134,47 +100,12 @@ public class ChessGameController : MonoBehaviour
     {
         GeneratePlayersValidMoves(activePlayer);
         GeneratePlayersValidMoves(GetOpponentToPlayer(activePlayer));
-        if (CheckIfGameIsFinished())
-        {
-            EndGame();
-        }
-        else
-        {
-            ChangeActiveTeam();
-        }
-    }
-
-    private void EndGame()
-    {
-        SetGameState(GameState.Finished);
-        Debug.LogError("GameEnded");
-        UIManager.OnGameFinished(activePlayer.team.ToString());
+        ChangeActiveTeam();       
     }
 
     private void GeneratePlayersValidMoves(ChessPlayer player)
     {
         player.GenerateAllPossibleMoves();
-    }
-
-    private bool CheckIfGameIsFinished()
-    {        
-        Piece[] kingAttackingPieces = activePlayer.GetPieceAtackingOppositePiceOfType<King>();
-        if (kingAttackingPieces.Length > 0)
-        {
-            ChessPlayer oppositePlayer = GetOpponentToPlayer(activePlayer);
-            Piece attackedKing = oppositePlayer.GetPiecesOfType<King>().FirstOrDefault();
-            oppositePlayer.RemoveMovesEnablingAttakOnPieceOfType<King>(activePlayer, attackedKing);
-
-            int avaliableKingMoves = attackedKing.avaliableMoves.Count;
-            if(avaliableKingMoves == 0)
-            {
-                bool canCoverKing = oppositePlayer.CanHidePieceFromAttack<King>(activePlayer);
-                Debug.LogError(string.Format("Can cover: {0}, king moves: {1}", canCoverKing, avaliableKingMoves));
-                if (!canCoverKing)
-                    return true;
-            }         
-        }
-        return false;
     }
 
     private void ChangeActiveTeam()
@@ -185,7 +116,7 @@ public class ChessGameController : MonoBehaviour
             activePlayer = whitePlayer;
     }
 
-    internal void OnPieceRemoved(Piece piece)
+    public void OnPieceRemoved(Piece piece)
     {
         ChessPlayer pieceOwner = (piece.team == TeamColor.White) ? whitePlayer : blackPlayer;
         pieceOwner.RemovePiece(piece);

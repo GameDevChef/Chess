@@ -31,10 +31,7 @@ public class BoardLayout : ScriptableObject
     {
         return boardSquares.Length;
     }
-    public Vector2Int GetSquarePositionAtIndex(int index)
-    {
-        return boardSquares[index].position;
-    }
+
 
     public Vector2Int GetSquareCoordsAtIndex(int index)
     {

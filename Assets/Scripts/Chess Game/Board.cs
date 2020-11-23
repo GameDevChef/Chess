@@ -62,12 +62,6 @@ public class Board : MonoBehaviour
 		}
 	}
 
-	internal void OnGameRestarted()
-	{
-		selectedPiece = null;
-		CreateGrid();
-	}
-
 	private Vector2Int CalculateCoordsFromPosition(Vector3 inputPosition)
 	{
 		int x = Mathf.FloorToInt(inputPosition.x / squareSize) + BOARD_SIZE / 2;
@@ -90,7 +84,6 @@ public class Board : MonoBehaviour
 
 	private void SelectPiece(Piece piece)
 	{
-		chessController.RemoveMovesEnablingAttakOnPieceOfType<King>(piece);
 		selectedPiece = piece;
 		List<Vector2Int> selection = selectedPiece.avaliableMoves;
 		ShowSelectionSquares(selection);

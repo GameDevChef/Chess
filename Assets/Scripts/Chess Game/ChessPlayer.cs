@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -30,11 +29,6 @@ public class ChessPlayer
 			activePieces.Remove(piece);
 	}
 
-	public Piece[] GetPiecesOfType<T>() where T : Piece
-	{
-		return activePieces.Where(p => p is T).ToArray();
-	}
-
 	internal void GenerateAllPossibleMoves()
 	{
 		foreach (var piece in activePieces)
@@ -43,68 +37,4 @@ public class ChessPlayer
 				piece.SelectAvaliableSquares();
 		}
 	}
-
-
-	public Piece[] GetPieceAtackingOppositePiceOfType<T>() where T : Piece
-	{
-		return activePieces.Where(p => p.IsAttackingPieceOfType<T>()).ToArray();
-	}
-
-	internal void OnGameRestarted()
-	{
-		activePieces.Clear();
-	}
-
-	internal bool CheckIfIsAttacigPiece<T>() where T : Piece
-	{
-		foreach (var piece in activePieces)
-		{
-			if (board.HasPiece(piece, piece.team) && piece.IsAttackingPieceOfType<T>())
-				return true;
-		}
-		return false;
-	}
-
-	public void RemoveMovesEnablingAttakOnPieceOfType<T>(ChessPlayer opponent, Piece selectedPiece) where T : Piece
-	{
-		List<Vector2Int> coordsToRemove = new List<Vector2Int>();
-
-		coordsToRemove.Clear();
-		foreach (var coords in selectedPiece.avaliableMoves)
-		{
-			Piece pieceOnCoords = board.GetPieceOnSquare(coords);
-			board.UpdateBoardOnPieceMove(coords, selectedPiece.occupiedSquare, selectedPiece, null);
-			opponent.GenerateAllPossibleMoves();
-			if (opponent.CheckIfIsAttacigPiece<T>())
-				coordsToRemove.Add(coords);
-			board.UpdateBoardOnPieceMove(selectedPiece.occupiedSquare, coords, selectedPiece, pieceOnCoords);
-		}
-		foreach (var coords in coordsToRemove)
-		{
-			selectedPiece.avaliableMoves.Remove(coords);
-		}
-
-	}
-
-	public bool CanHidePieceFromAttack<T>(ChessPlayer opponent) where T : Piece
-	{
-		foreach (var piece in activePieces)
-		{
-			foreach (var coords in piece.avaliableMoves)
-			{
-				Piece pieceOnCoords = board.GetPieceOnSquare(coords);
-				board.UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
-				opponent.GenerateAllPossibleMoves();
-				if (!opponent.CheckIfIsAttacigPiece<T>())
-				{
-					board.UpdateBoardOnPieceMove(piece.occupiedSquare, coords, piece, pieceOnCoords);
-					return true;
-				}
-				board.UpdateBoardOnPieceMove(piece.occupiedSquare, coords, piece, pieceOnCoords);
-			}
-		}
-		return false;
-	}
-
-
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardInputReciever : InputReciever
+public class ColliderInputReciever : InputReciever
 {
     private Vector3 clickPosition;
     void Update()
