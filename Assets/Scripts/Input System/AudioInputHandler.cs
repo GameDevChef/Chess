@@ -6,10 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class AudioInputHandler : MonoBehaviour, IInputHandler
 {
+    [SerializeField] private AudioClip clip;
     private AudioSource source;
-
-
-    [SerializeField] AudioClip clip;
     public void ProcessInput(Vector3 inputPosition, GameObject selectedObject, Action onClick)
     {
         throw new NotImplementedException();

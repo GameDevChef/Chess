@@ -7,7 +7,7 @@ public class SquareSelectorCreator : MonoBehaviour
 {
 	[SerializeField] private Material freeSquareMaterial;
 	[SerializeField] private Material enemySquareMaterial;
-	[SerializeField] GameObject selectorPrefab;
+	[SerializeField] private GameObject selectorPrefab;
 	private List<GameObject> instantiatedSelectors = new List<GameObject>();
 
 	public void ShowSelection(Dictionary<Vector3, bool> squareData)

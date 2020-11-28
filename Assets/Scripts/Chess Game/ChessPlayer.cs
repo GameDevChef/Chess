@@ -29,11 +29,11 @@ public class ChessPlayer
 			activePieces.Remove(piece);
 	}
 
-	internal void GenerateAllPossibleMoves()
+	public void GenerateAllPossibleMoves()
 	{
 		foreach (var piece in activePieces)
 		{
-			if(board.HasPiece(piece, piece.team))
+			if(board.HasPiece(piece))
 				piece.SelectAvaliableSquares();
 		}
 	}

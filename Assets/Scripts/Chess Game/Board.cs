@@ -106,7 +106,7 @@ public class Board : MonoBehaviour
 		}
 	}
 
-	public bool HasPiece(Piece piece, TeamColor team)
+	public bool HasPiece(Piece piece)
 	{
 		for (int i = 0; i < BOARD_SIZE; i++)
 		{
@@ -128,12 +128,6 @@ public class Board : MonoBehaviour
 		return true;
 	}	
 
-	public void PromotePiece(Piece piece)
-	{
-		TakePiece(piece);
-		chessController.CreatePieceAndInitialize(piece.occupiedSquare, piece.team, typeof(Queen));
-	}
-
 	private void ShowSelectionSquares(List<Vector2Int> selection)
 	{
 		Dictionary<Vector3, bool> selectionPositions = new Dictionary<Vector3, bool>();
@@ -146,9 +140,9 @@ public class Board : MonoBehaviour
 		squareSelector.ShowSelection(selectionPositions);
 	}
 
-	public Vector3 CalculatePositionFromCoords(Vector2Int squareCoordinates)
+	public Vector3 CalculatePositionFromCoords(Vector2Int coords)
 	{
-		return bottomLeftSquareTransform.position +new Vector3(squareCoordinates.x * squareSize, 0f, squareCoordinates.y * squareSize);
+		return bottomLeftSquareTransform.position +new Vector3(coords.x * squareSize, 0f, coords.y * squareSize);
 	}
 
 	private void TryToTakeOppositePiece(Vector2Int coords)

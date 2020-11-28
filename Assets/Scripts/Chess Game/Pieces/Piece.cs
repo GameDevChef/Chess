@@ -32,9 +32,9 @@ public abstract class Piece : MonoBehaviour
 		materialSetter.SetSingleMaterial(selectedMaterial);
 	}
 
-	public bool IsFromSameTeam(Piece selectedPiece)
+	public bool IsFromSameTeam(Piece piece)
 	{
-		return team == selectedPiece.team;
+		return team == piece.team;
 	}
 
 	public bool CanMoveTo(Vector2Int coords)
@@ -56,11 +56,11 @@ public abstract class Piece : MonoBehaviour
 		avaliableMoves.Add(coords);
 	}
 
-	internal void SetData(Vector2Int squareCoordinates, TeamColor team, Board board)
+	public void SetData(Vector2Int coords, TeamColor team, Board board)
 	{
 		this.team = team;
-		occupiedSquare = squareCoordinates;
+		occupiedSquare = coords;
 		this.board = board;
-		transform.position = board.CalculatePositionFromCoords(squareCoordinates);
+		transform.position = board.CalculatePositionFromCoords(coords);
 	}
 }

@@ -502,12 +502,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   piecesPrefabs:
-  - {fileID: 8779283421150227541, guid: a71fd906a2159e247ab4d632e46947db, type: 3}
-  - {fileID: -5732090275994096085, guid: 861e95a585868b643bf2e4a1d0ae63b7, type: 3}
-  - {fileID: 6721064675255985955, guid: b6c7ad354ac474944ba26b2895a59759, type: 3}
-  - {fileID: 24336764279211915, guid: edd4f3477fd5a8b4599bf6c0dac39f1d, type: 3}
-  - {fileID: 7401837320379188865, guid: 9d3e9c36668dcfe44b524760a4c3a3b5, type: 3}
-  - {fileID: -4913122176751009304, guid: 1f7a3b3d104b8e44cb39f5356ae1d0bb, type: 3}
+  - {fileID: 196866, guid: a71fd906a2159e247ab4d632e46947db, type: 3}
+  - {fileID: 130826, guid: 861e95a585868b643bf2e4a1d0ae63b7, type: 3}
+  - {fileID: 196802, guid: b6c7ad354ac474944ba26b2895a59759, type: 3}
+  - {fileID: 138226, guid: edd4f3477fd5a8b4599bf6c0dac39f1d, type: 3}
+  - {fileID: 184594, guid: 1f7a3b3d104b8e44cb39f5356ae1d0bb, type: 3}
+  - {fileID: 125018, guid: 9d3e9c36668dcfe44b524760a4c3a3b5, type: 3}
   blackMaterial: {fileID: 2100000, guid: 77a85d1c1d55bbe489c3cc49a98c58a7, type: 2}
   whiteMaterial: {fileID: 2100000, guid: cc290b1cc1b3a6743b4166d0faaf4edc, type: 2}
 --- !u!4 &1909074937
