@@ -17,8 +17,8 @@ public class MaterialSetter : MonoBehaviour
 		}
 	}
 
-	internal void SetSingleMaterial(Material selectedMaterial)
+	public void SetSingleMaterial(Material material)
 	{
-		meshRenderer.material = selectedMaterial;
+		meshRenderer.material = material;
 	}
 }
