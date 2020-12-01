@@ -17,24 +17,9 @@ public class King : Piece
 		new Vector2Int(1, -1),
 	};
 
-    private Piece leftRook;
-    private Piece rightRook;
-
-    private Vector2Int leftCastlingMove;
-    private Vector2Int rightCastlingMove;
-
     public override List<Vector2Int> SelectAvaliableSquares()
     {
         avaliableMoves.Clear();
-        AssignStandardMoves();
-        return avaliableMoves;
-
-    }
-
-  
-
-    private void AssignStandardMoves()
-    {
         float range = 1;
         foreach (var direction in directions)
         {
@@ -55,5 +40,8 @@ public class King : Piece
                     break;
             }
         }
+        return avaliableMoves;
+
     }
+  
 }
