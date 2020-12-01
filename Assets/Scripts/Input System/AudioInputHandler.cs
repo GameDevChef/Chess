@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class AudioInputHandler : MonoBehaviour, IInputHandler
+public class AudioInputHandler : MonoBehaviour
 {
-    [SerializeField] private AudioClip clip;
-    private AudioSource source;
-    public void ProcessInput(Vector3 inputPosition, GameObject selectedObject, Action onClick)
+    // Start is called before the first frame update
+    void Start()
     {
-        throw new NotImplementedException();
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 }

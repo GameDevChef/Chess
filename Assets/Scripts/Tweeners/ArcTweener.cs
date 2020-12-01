@@ -1,16 +1,18 @@
-﻿using DG.Tweening;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcTweener : MonoBehaviour, IObjectTweener
+public class ArcTweener : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float jumpHeight;
-
-    public void MoveTo(Transform transform, Vector3 targetPosition)
+    // Start is called before the first frame update
+    void Start()
     {
-        float distance = Vector3.Distance(targetPosition, transform.position);
-        transform.DOJump(targetPosition, jumpHeight, 1, distance / movementSpeed);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 }
