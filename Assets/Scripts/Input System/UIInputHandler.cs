@@ -1,18 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIInputHandler : MonoBehaviour
+public class UIInputHandler : MonoBehaviour, IInputHandler
 {
-    // Start is called before the first frame update
-    void Start()
+    public void ProcessInput(Vector3 inputPosition, GameObject selectedObject, Action onClick)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        onClick?.Invoke();
     }
 }
