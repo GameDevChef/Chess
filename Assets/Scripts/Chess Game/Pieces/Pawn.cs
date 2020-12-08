@@ -19,7 +19,7 @@ public class Pawn : Piece
                 break;
             if (piece == null)
                 TryToAddMove(nextCoords);
-            else if (piece.IsFromSameTeam(this))
+            else
                 break;
         }
 
