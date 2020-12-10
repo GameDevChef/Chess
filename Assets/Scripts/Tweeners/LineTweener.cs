@@ -1,18 +1,15 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LineTweener : MonoBehaviour
+public class LineTweener : MonoBehaviour, IObjectTweener
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float movementSpeed;
+
+    public void MoveTo(Transform transform, Vector3 targetPosition)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        float distance = Vector3.Distance(targetPosition, transform.position);
+        transform.DOMove(targetPosition, distance / movementSpeed);
     }
 }
