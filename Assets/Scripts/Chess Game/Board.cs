@@ -71,6 +71,7 @@ public class Board : MonoBehaviour
 
     private void SelectPiece(Piece piece)
     {
+        chessController.RemoveMovesEnablingAttakOnPieceOfType<King>(piece);
         selectedPiece = piece;
         List<Vector2Int> selection = selectedPiece.avaliableMoves;
         ShowSelectionSquares(selection);

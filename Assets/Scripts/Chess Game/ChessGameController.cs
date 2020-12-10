@@ -176,5 +176,10 @@ public class ChessGameController : MonoBehaviour
         ChessPlayer pieceOwner = (piece.team == TeamColor.White) ? whitePlayer : blackPlayer;
         pieceOwner.RemovePiece(piece);
     }
+
+    internal void RemoveMovesEnablingAttakOnPieceOfType<T>(Piece piece) where T : Piece
+    {
+        activePlayer.RemoveMovesEnablingAttakOnPieceOfType<T>(GetOpponentToPlayer(activePlayer), piece);
+    }
 }
 
