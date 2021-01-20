@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum TeamColor
 {
-    Black, White
+    Black = 0, White = 1
 }
 
 public enum PieceType
