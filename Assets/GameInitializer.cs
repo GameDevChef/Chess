@@ -48,6 +48,5 @@ public class GameInitializer : MonoBehaviour
         controller.InitializeGame();
         board.SetDependencies(controller);
         controller.StartNewGame();
-        board.SetSingleplayerLocalPlayer();
     }
 }

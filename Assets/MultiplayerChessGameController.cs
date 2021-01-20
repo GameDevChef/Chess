@@ -9,6 +9,7 @@ public class MultiplayerChessGameController : ChessGameController, IOnEventCallb
 {
 
 	private NetworkManager networkManager;
+	private ChessPlayer localPlayer;
 
 	public void SetNetworkManager(NetworkManager networkManager)
 	{
@@ -23,6 +24,16 @@ public class MultiplayerChessGameController : ChessGameController, IOnEventCallb
 	private void OnDisable()
 	{
 		PhotonNetwork.RemoveCallbackTarget(this);
+	}
+
+	public void SetLocalPlayer(TeamColor team)
+	{
+		localPlayer = team == TeamColor.White ? whitePlayer : blackPlayer;
+	}
+
+	public bool IsLocalPlayersTurn()
+	{
+		return localPlayer == activePlayer;
 	}
 
 	protected override void SetGameState(GameState state)
@@ -52,4 +63,14 @@ public class MultiplayerChessGameController : ChessGameController, IOnEventCallb
 		}
 
 	}
+
+
+	public override bool CanPerformMove()
+	{
+		if (!IsGameInProgress() || !IsLocalPlayersTurn())
+			return false;
+		return true;
+	}
 }
+
+

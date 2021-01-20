@@ -18,10 +18,10 @@ public abstract class ChessGameController : MonoBehaviour
     private CameraSetup cameraSetup;
     private Board board;
     private PiecesCreator pieceCreator;
-    private ChessPlayer whitePlayer;
-    private ChessPlayer blackPlayer;
-    private ChessPlayer activePlayer;
-    private ChessPlayer localPlayer;
+    protected ChessPlayer whitePlayer;
+    protected ChessPlayer blackPlayer;
+    protected ChessPlayer activePlayer;
+    
 
     protected GameState state;
 
@@ -62,26 +62,15 @@ public abstract class ChessGameController : MonoBehaviour
     }
 
     protected abstract void SetGameState(GameState state);
-
-    //public void SetGameState(GameState state)
-    //{
-    //    this.state = state;
-    //}
+    public abstract void TryToStartThisGame();
+    public abstract bool CanPerformMove();
 
     internal bool IsGameInProgress()
     {
         return state == GameState.Play;
     }
 
-    public void SetLocalPlayer(TeamColor team)
-    {
-        localPlayer = team == TeamColor.White ? whitePlayer : blackPlayer;
-    }
-
-    public bool IsLocalPlayersTurn()
-    {
-        return localPlayer == activePlayer;
-    }
+    
 
     private void CreatePiecesFromLayout(BoardLayout layout)
     {
@@ -96,7 +85,7 @@ public abstract class ChessGameController : MonoBehaviour
         }
     }
 
-
+   
 
     public void CreatePieceAndInitialize(Vector2Int squareCoords, TeamColor team, Type type)
     {
@@ -117,9 +106,9 @@ public abstract class ChessGameController : MonoBehaviour
         cameraSetup.SetupCamera(team);
 	}
 
-    public abstract void TryToStartThisGame();
+    
 
-	private void GenerateAllPossiblePlayerMoves(ChessPlayer player)
+    private void GenerateAllPossiblePlayerMoves(ChessPlayer player)
     {
         player.GenerateAllPossibleMoves();
     }
@@ -192,11 +181,6 @@ public abstract class ChessGameController : MonoBehaviour
     private ChessPlayer GetOpponentToPlayer(ChessPlayer player)
     {
         return player == whitePlayer ? blackPlayer : whitePlayer;
-    }
-
-    internal void SetLocalPlayerToActive()
-    {
-        localPlayer = activePlayer;
     }
 
     internal void OnPieceRemoved(Piece piece)

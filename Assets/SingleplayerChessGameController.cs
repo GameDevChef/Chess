@@ -14,5 +14,10 @@ public class SingleplayerChessGameController : ChessGameController
 		SetGameState(GameState.Play);
 
 	}
-
+	public override bool CanPerformMove()
+	{
+		if (!IsGameInProgress())
+			return false;
+		return true;
+	}
 }
