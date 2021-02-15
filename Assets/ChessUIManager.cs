@@ -11,7 +11,6 @@ public class ChessUIManager : MonoBehaviour
 	[SerializeField] private NetworkManager networkManager;
 
 	[Header("Buttons")]
-	[SerializeField] private Button restartButton;
 	[SerializeField] private Button whiteTeamButtonButton;
 	[SerializeField] private Button blackTeamButtonButton;
 
